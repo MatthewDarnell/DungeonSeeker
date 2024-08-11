@@ -48,20 +48,20 @@ function getStat(string memory _stat, uint stats) pure returns(uint) {
 
 function packStats(uint INT, uint WIS, uint DEX, uint STL, uint PER, uint ARC, uint NAT, uint SUR) pure returns(uint) {
     uint retVal = 0;
-    retVal = (INT & 0x00000000000000000000000000000000000000000000000000000000000000FF);
-    retVal <<= 1;
-    retVal |= (WIS & 0x00000000000000000000000000000000000000000000000000000000000000FF);
-    retVal <<= 1;
-    retVal |= (DEX & 0x00000000000000000000000000000000000000000000000000000000000000FF);
-    retVal <<= 1;
-    retVal |= (STL & 0x00000000000000000000000000000000000000000000000000000000000000FF);
-    retVal <<= 1;
-    retVal |= (PER & 0x00000000000000000000000000000000000000000000000000000000000000FF);
-    retVal <<= 1;
-    retVal |= (ARC & 0x00000000000000000000000000000000000000000000000000000000000000FF);
-    retVal <<= 1;
-    retVal |= (NAT & 0x00000000000000000000000000000000000000000000000000000000000000FF);
-    retVal <<= 1;
-    retVal |= (SUR & 0x00000000000000000000000000000000000000000000000000000000000000FF);
+    retVal = (INT & 0xFF);
+    retVal <<= 8;
+    retVal |= (WIS & 0xFF);
+    retVal <<= 8;
+    retVal |= (DEX & 0xFF);
+    retVal <<= 8;
+    retVal |= (STL & 0xFF);
+    retVal <<= 8;
+    retVal |= (PER & 0xFF);
+    retVal <<= 8;
+    retVal |= (ARC & 0xFF);
+    retVal <<= 8;
+    retVal |= (NAT & 0xFF);
+    retVal <<= 8;
+    retVal |= (SUR & 0xFF);
     return retVal;
 }

@@ -30,6 +30,8 @@ contract GM {
         return campaigns[campaignId];
     }
 
+
+
     /*
         Functions for Setting Up The Game. Adding Inventory, Etc.
     */
@@ -63,9 +65,9 @@ contract GM {
     string memory playerName, string memory stat, uint dieSize, uint success) public returns(uint) {
         CampaignState campaign = campaigns[campaignId];
         uint roll = rollSkillCheck(campaign,seed, playerAddress, playerName, stat, dieSize);
-        console.log("GM Rolled Skill check %d", roll);
-        if(roll >= success) console.log('Check Passed!');
-        else console.log('Check Failed!');
+        //console.log("GM Rolled Skill check %d", roll);
+        //if(roll >= success) console.log('Check Passed!');
+        //else console.log('Check Failed!');
         return roll;
     }
 

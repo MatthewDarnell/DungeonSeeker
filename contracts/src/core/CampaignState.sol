@@ -11,8 +11,9 @@ import "./PlayerCharacter.sol";
 contract CampaignState {
     using EnumerableSet for EnumerableSet.AddressSet;
     address public gm;
-    uint public campaignId;
+    uint public campaignId; //TODO: Pack as many of the uints as possible
     uint public maxPartySize;
+    bool public _isInInitiative;
     EnumerableSet.AddressSet private partyAddressSet;
     mapping(address => PlayerCharacter) public party;
 
@@ -21,6 +22,19 @@ contract CampaignState {
         gm = msg.sender;
         campaignId = _campaignId;
         maxPartySize = _maxPartySize;
+        _isInInitiative = false;
+    }
+
+    function isInInitiative() public view returns(bool) {
+        return _isInInitiative;
+    }
+
+    function startEncounter() public {
+        _isInInitiative = true;
+    }
+
+    function endEncounter() public {
+        _isInInitiative = false;
     }
 
     //It is up to the gm to enforce party unique names!!!
@@ -29,7 +43,7 @@ contract CampaignState {
         //Access Control Here
         require(partySize < maxPartySize, "Party Full!");
         partyAddressSet.add(playerAddress);
-        console.log("Adding Player %o", name);
+        //console.log("Adding Player %o", name);
         party[playerAddress] = new PlayerCharacter(playerAddress, partySize + 1, name, gm);
     }
 
