@@ -6,6 +6,8 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
 import "./PlayerCharacter.sol";
+import "./action/Strike.sol";
+import "./entity/Monster.sol";
 
 
 contract CampaignState {
@@ -47,12 +49,23 @@ contract CampaignState {
         party[playerAddress] = new PlayerCharacter(playerAddress, partySize + 1, name, gm);
     }
 
-    function setPartyPlayerStats(   address playerAddress, string memory name, uint INT, uint WIS, 
+    function setPartyPlayerStats(   address playerAddress, string memory name, uint AC, uint INT, uint WIS, 
                                     uint DEX, uint STL, uint PER, uint ARC, uint NAT, uint SUR) public {
         //TODO: Check owner, gm
         console.log("Checking Player %o", name);
         require(keccak256(abi.encodePacked(party[playerAddress].getName())) == keccak256(abi.encodePacked(name)), "Invalid Player Character!");
-        party[playerAddress].setStats(INT, WIS, DEX, STL, PER, ARC, NAT, SUR);
+        party[playerAddress].setStats(AC, INT, WIS, DEX, STL, PER, ARC, NAT, SUR);
+    }
+
+    function executeAction(uint seed, address playerAddress, string memory name, uint targetId, uint itemId) public {
+        require(keccak256(abi.encodePacked(party[playerAddress].getName())) == keccak256(abi.encodePacked(name)), "Invalid Player Character!");
+        //TODO: Add Monster to Encounter in Separate Function
+        Monster monster = new Monster(msg.sender, 1, "Kobold Warrior", gm, 10, 15);
+        monster.setStats(15, 1, 1, 1, 1, 1, 1, 1, 1);
+        Strike strike = new Strike("Strike");
+        strike.execute(seed, party[playerAddress], itemId, monster, 1);
+        // execute(IEntity actor, uint actorItemId, IEntity target, uint actionId) 
+
     }
 
     function getPlayerStats(address playerAddress, string memory name) public view returns(uint) {

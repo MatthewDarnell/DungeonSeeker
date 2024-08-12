@@ -2,6 +2,7 @@
 pragma solidity ^0.8.24;
 
 enum Stats {
+    AC,
     INT,
     WIS,
     DEX,
@@ -13,6 +14,7 @@ enum Stats {
 }
 
 function isValidStat(string memory _stat) pure returns(bool) {
+    if (keccak256(bytes(_stat)) != keccak256(bytes("AC"))) return false;
     if (keccak256(bytes(_stat)) != keccak256(bytes("INT"))) return false;
     if (keccak256(bytes(_stat)) != keccak256(bytes("WIS"))) return false;
     if (keccak256(bytes(_stat)) != keccak256(bytes("DEX"))) return false;
@@ -26,6 +28,7 @@ function isValidStat(string memory _stat) pure returns(bool) {
 
 function getStatEnum(string memory _stat) pure returns(Stats) {
     require(isValidStat(_stat) == true, "Invalid Stat!");
+    if (keccak256(bytes(_stat)) == keccak256(bytes("AC"))) return Stats.AC;
     if (keccak256(bytes(_stat)) == keccak256(bytes("INT"))) return Stats.INT;
     if (keccak256(bytes(_stat)) == keccak256(bytes("WIS"))) return Stats.WIS;
     if (keccak256(bytes(_stat)) == keccak256(bytes("DEX"))) return Stats.DEX;
@@ -36,19 +39,22 @@ function getStatEnum(string memory _stat) pure returns(Stats) {
     return Stats.SUR;
 }
 function getStat(string memory _stat, uint stats) pure returns(uint) {
-    if (keccak256(bytes(_stat)) == keccak256(bytes("INT"))) return (stats >> 7) & 0xFF;
-    if (keccak256(bytes(_stat)) == keccak256(bytes("WIS"))) return (stats >> 6) & 0xFF;
-    if (keccak256(bytes(_stat)) == keccak256(bytes("DEX"))) return (stats >> 5) & 0xFF;
-    if (keccak256(bytes(_stat)) == keccak256(bytes("STL"))) return (stats >> 4) & 0xFF;
-    if (keccak256(bytes(_stat)) == keccak256(bytes("PER"))) return (stats >> 3) & 0xFF;
-    if (keccak256(bytes(_stat)) == keccak256(bytes("ARC"))) return (stats >> 2) & 0xFF;
-    if (keccak256(bytes(_stat)) == keccak256(bytes("NAT"))) return (stats >> 1) & 0xFF;
+    if (keccak256(bytes(_stat)) == keccak256(bytes("AC"))) return (stats >> 64) & 0xFF;
+    if (keccak256(bytes(_stat)) == keccak256(bytes("INT"))) return (stats >> 56) & 0xFF;
+    if (keccak256(bytes(_stat)) == keccak256(bytes("WIS"))) return (stats >> 48) & 0xFF;
+    if (keccak256(bytes(_stat)) == keccak256(bytes("DEX"))) return (stats >> 40) & 0xFF;
+    if (keccak256(bytes(_stat)) == keccak256(bytes("STL"))) return (stats >> 32) & 0xFF;
+    if (keccak256(bytes(_stat)) == keccak256(bytes("PER"))) return (stats >> 24) & 0xFF;
+    if (keccak256(bytes(_stat)) == keccak256(bytes("ARC"))) return (stats >> 16) & 0xFF;
+    if (keccak256(bytes(_stat)) == keccak256(bytes("NAT"))) return (stats >> 8) & 0xFF;
     return stats & 0xFF;
 }
 
-function packStats(uint INT, uint WIS, uint DEX, uint STL, uint PER, uint ARC, uint NAT, uint SUR) pure returns(uint) {
+function packStats(uint AC, uint INT, uint WIS, uint DEX, uint STL, uint PER, uint ARC, uint NAT, uint SUR) pure returns(uint) {
     uint retVal = 0;
-    retVal = (INT & 0xFF);
+    retVal = AC & 0xFF;
+    retVal <<= 8;
+    retVal |= (INT & 0xFF);
     retVal <<= 8;
     retVal |= (WIS & 0xFF);
     retVal <<= 8;

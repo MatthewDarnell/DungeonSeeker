@@ -18,7 +18,7 @@ describe("GM", function () {
       const campaign = await gm.getCampaign(1);
       const c = await hre.ethers.getContractAt("CampaignState", campaign);
       await c.addPlayer('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1");
-      await c.setPartyPlayerStats('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1", 1, 1, 1, 1, 1, 1, 1, 1);
+      await c.setPartyPlayerStats('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1", 1, 1, 1, 1, 1, 1, 1, 1, 1);
       const retrievedStats = await c.getPlayerStats('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1");
       const retVal = await gm.skillCheck(1, 100, '0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', 'Player1', 'INT', 20, 10);
       //TODO: Get Event from retVal with Result
@@ -30,7 +30,7 @@ describe("GM", function () {
     const campaign = await gm.getCampaign(1);
     const c = await hre.ethers.getContractAt("CampaignState", campaign);
     await c.addPlayer('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1");
-    await c.setPartyPlayerStats('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1", 1, 1, 1, 1, 1, 1, 1, 1);
+    await c.setPartyPlayerStats('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1", 1, 1, 1, 1, 1, 1, 1, 1, 1);
     const retrievedStats = await c.getPlayerStats('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1");
     //(uint campaignId, uint itemId, address playerAddress, string memory name, string memory itemType, uint stats) public {
 

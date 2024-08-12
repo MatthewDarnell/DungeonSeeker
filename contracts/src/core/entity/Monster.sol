@@ -4,42 +4,32 @@ pragma solidity ^0.8.24;
 // For console.log
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
-import "./pc/core/Class.sol";
-import "./pc/core/Language.sol";
-import "./pc/core/Stats.sol";
-import "./Item.sol";
-import "./entity/IEntity.sol";
+import "../pc/core/Class.sol";
+import "../pc/core/Language.sol";
+import "../pc/core/Stats.sol";
+import "../Item.sol";
+import "./IEntity.sol";
 
-struct CharacterSheet {
-        uint speed;
-        //TO ADD:
-        // Feats, Inventory, Alignment (?), Cantrips, Prepared Spells, Spell Slots, etc.
-        uint level;
-        Class class;
-        Language[] languagesSpoken;
-        
-    }
-
-contract PlayerCharacter is IEntity {
+contract Monster is IEntity {
     using EnumerableSet for EnumerableSet.UintSet;
     uint public id;
     address public gm;
     address public owner;
     string public name;
-    string public race; //TODO: make these Enums
-    string public background;
+    uint public hp;
     uint public experiencePoints;
     //                                  [acrobatics, arcana, athletics, ...]
     uint public stats; //Packed 256 bit int:   [1 2 3 4 5 6 7 8 9]
     EnumerableSet.UintSet private equipmentSet;
     mapping(uint => Item[]) public equipment;
 
-    CharacterSheet public characterSheet;
 
-    constructor(address _owner, uint playerId, string memory _name, address _gm) {
-        id = playerId;
+    constructor(address _owner, uint monsterId, string memory _name, address _gm, uint _hp, uint _xp) {
+        id = monsterId;
         owner = _owner;
         name = _name;
+        hp = _hp;
+        experiencePoints = _xp;
         gm = _gm;   //Privileged Account
     }
 

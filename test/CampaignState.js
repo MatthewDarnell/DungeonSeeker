@@ -40,19 +40,30 @@ describe("CampaignState", function () {
   it("Should Set and Retrieve Packed Stats", async function () {
     const { campaign } = await loadFixture(deployContract);
     await campaign.addPlayer('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1");
-    await campaign.setPartyPlayerStats('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1", 1, 1, 1, 1, 1, 1, 1, 1);
+    await campaign.setPartyPlayerStats('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1", 1, 1, 1, 1, 1, 1, 1, 1, 1);
     let retrievedStats = await campaign.getPlayerStats('0xbDA5747bFD65F08deb54cb465eB87D40e51B197E', "Player1");
-    retrievedStats = parseInt(retrievedStats)
-    let stats = [0, 0, 0, 0, 0, 0, 0, 0]
-    let index = 56;
-    for(let i =0; i < 8; i++) {
-      let temp = retrievedStats >> (index);
-      console.log(temp);
-      stats[i] = parseInt(temp & (0xFF));
-      retrievedStats -= 8;
-    }
-    for(const stat of stats) {
-      expect(stat).to.be.equal(1);
-    }
-});
+    expect(retrievedStats).to.be.equal(18519084246547628289n);
+
+  
+    let stat = parseInt(retrievedStats >> 64n) & 0xFF;
+    expect(stat).to.be.equal(1);
+    stat = parseInt(retrievedStats >> 56n) & 0xFF;
+    expect(stat).to.be.equal(1);
+    stat = parseInt(retrievedStats >> 48n) & 0xFF;
+    expect(stat).to.be.equal(1);
+    stat = parseInt(retrievedStats >> 40n) & 0xFF;
+    expect(stat).to.be.equal(1);
+    stat = parseInt(retrievedStats >> 32n) & 0xFF;
+    console.log(stat)
+    expect(stat).to.be.equal(1);
+    let lower = parseInt(retrievedStats & 0xFFFFFFFFn);
+    stat = (lower >> 24) & 0xFF;
+    expect(stat).to.be.equal(1);
+    stat = (lower >> 16) & 0xFF;
+    expect(stat).to.be.equal(1);
+    stat = (lower >> 8) & 0xFF;
+    expect(stat).to.be.equal(1);
+    stat = lower & 0xFF;
+    expect(stat).to.be.equal(1);
+  });
 });
