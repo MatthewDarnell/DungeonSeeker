@@ -1,8 +1,8 @@
-# Sample Hardhat Project
+# Simple POC For implementing TTRPG rules on Solidity
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+This project is a POC, it allows for a GM to create a campaign, add characters to the party, give items, roll for damage, etc.
 
-Try running some of the following tasks:
+See the unit tests in `test/` for examples.
 
 ```shell
 npx hardhat help
